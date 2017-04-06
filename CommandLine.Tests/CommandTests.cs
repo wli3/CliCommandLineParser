@@ -208,5 +208,17 @@ namespace Microsoft.DotNet.Cli.CommandLine.Tests
             command.Parse("test ").Suggestions()
                    .Should().BeEquivalentTo("foo", "bar");
         }
+
+        [Fact]
+        public void Option_and_Command_can_have_the_same_alias()
+        {
+            Action a = () => new Parser(
+                Command("outer", "",
+                    ExactlyOneArgument(),
+                    Command("inner", "",
+                        ZeroOrMoreArguments()), Option("--inner", "")));
+            a.ShouldNotThrow<ArgumentException>();
+        }
+
     }
 }
